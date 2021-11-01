@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../include/Technical/Persistence/credentials.hpp"
-#include "../include/Domain/Actors/Person.hpp"
+#include "../include/Technical/Persistence/database.hpp"
 
 int main() {
   std::cout << "hey mom!" << std::endl;
@@ -9,5 +9,9 @@ int main() {
   Domain::Actors::Person person = Domain::Actors::Person("Jared Dyreson", 22, 
                                                           Domain::Actors::Role::client, std::make_tuple("username", "password"));
   std::cout << person.getAge() << std::endl;
+
+  TechnicalServices::Persistence::Database database = TechnicalServices::Persistence::Database();
+  database.insertElement(&person);
+  std::cout << database.size() << std::endl;
   return 0;
 }
