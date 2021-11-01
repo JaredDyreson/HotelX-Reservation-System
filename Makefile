@@ -35,7 +35,8 @@ _CFLAGS =   -stdlib=libc++ -Weverything        \
 			-fdiagnostics-show-category=name   \
 											   \
 			-Wno-zero-as-null-pointer-constant \
-			-Wno-ctad-maybe-unsupported        
+			-Wno-ctad-maybe-unsupported        \
+			-Wc++17-extensions
 
 #_CFLAGS = -Wall -Wextra -pedantic#             # Compilation flags
 _SCRIPT = :#                                   # Any shell script to run before build (replace ':')
