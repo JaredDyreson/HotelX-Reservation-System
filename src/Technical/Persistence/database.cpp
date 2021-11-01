@@ -8,16 +8,15 @@
 
 namespace TechnicalServices::Persistence {
   Database::Database() {
-    this->database = std::map<credentials, Domain::Actors::Person>();
+    this->database = std::map<Domain::Actors::Person, credentials>();
   }
   void Database::insertElement(Domain::Actors::Person* person) {
-
       auto creds = (*person).getCredentials();
-      if(this->database.find(creds) == this->database.end()) {
+      if(this->database.find(*person) == this->database.end()) {
         auto it = this->database.begin();
-        this->database.insert (it, std::pair<credentials, Domain::Actors::Person>(creds, *person));
+        this->database.insert(it, std::pair<Domain::Actors::Person, credentials>(*person, creds));
       } else {
-        std::cerr << "Person is already in the database" << std::endl;
+        std::cerr << (*person).getName() << " is already in the database" << std::endl;
       }
   }
   size_t Database::size() {

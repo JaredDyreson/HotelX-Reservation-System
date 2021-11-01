@@ -18,6 +18,12 @@ namespace Domain::Actors {
     void setAge(int);
     void setRole(Role);
 
+
+    bool operator<(const Person& src) const {
+      // This is for the database
+      return this->age < src.age;
+    }
+
   private:
     int age;
     std::string name;

@@ -15,6 +15,7 @@ namespace TechnicalServices::Persistence {
       size_t size();
 
     private:
-        std::map<credentials, Domain::Actors::Person> database;
+        //std::map<credentials, Domain::Actors::Person> database;
+        std::map<Domain::Actors::Person, credentials> database;
   };
 }
