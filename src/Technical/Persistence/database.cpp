@@ -2,24 +2,25 @@
 
 #include <iostream>
 #include <map>
+#include <algorithm>
 
 #include "../../../include/Technical/Persistence/credentials.hpp"
 #include "../../../include/Technical/Persistence/database.hpp"
 
-namespace TechnicalServices::Persistence {
-  //Database::Database() {
-    //this->database = std::map<Domain::Actors::Person, credentials>();
-  //}
-  //void Database::insertElement(Domain::Actors::Person* person) {
-      //auto creds = (*person).getCredentials();
-      //if(this->database.find(*person) == this->database.end()) {
-        //auto it = this->database.begin();
-        //this->database.insert(it, std::pair<Domain::Actors::Person, credentials>(*person, creds));
-      //} else {
-        //std::cerr << (*person).getName() << " is already in the database" << std::endl;
-      //}
-  //}
-  //size_t Database::size() {
-    //return this->database.size();
-  //}
+namespace TechnicalServices::Persistence::DataBase {
+    
+  Database::Database(std::map<std::string, std::string> _map) {
+    this->database = _map;
+  }
+  std::string Database::get(std::string key) {
+    return this->database[key];
+  }
+
+  bool Database::contains(std::string key) {
+    return std::find(this->database.begin(), this->database.end(), this->database) != this->database.end();
+  }
+
+  size_t Database::size() {
+    return this->database.size();
+  }
 };

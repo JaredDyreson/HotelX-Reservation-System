@@ -11,13 +11,12 @@ namespace TechnicalServices::Persistence::DataBase {
 
   class Database {
     public:
-      Database();
-
+      Database(std::map<std::string, std::string>);
+      std::string get(std::string);
+      bool contains(std::string);
       size_t size();
 
     private:
-        //std::map<credentials, Domain::Actors::Person> database;
-        //std::map<TechnicalServices::Persistence::DataClasses, credentials> database;
-
-  };
+      std::map<std::string, std::string> database;
+    };
 }
