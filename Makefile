@@ -18,25 +18,26 @@ _BDIR   = bin#                                 # Path to directory of binary fil
 _SSUF   = cpp#                                 # Suffix of source files
 _HSUF   = hpp#                                 # Suffix of header files
 _CC     = clang++#                                 # Compiler to be used
-_CFLAGS =   -stdlib=libc++ -Weverything        \
-			-Wno-comma                         \
-			-Wno-unused-template               \
-			-Wno-sign-conversion               \
-			-Wno-exit-time-destructors         \
-			-Wno-global-constructors           \
-			-Wno-missing-prototypes            \
-			-Wno-weak-vtables                  \
-			-Wno-padded                        \
-			-Wno-double-promotion              \
-			-Wno-c++98-compat-pedantic         \
-			-Wno-c++11-compat-pedantic         \
-			-Wno-c++14-compat-pedantic         \
-			-Wno-c++17-compat-pedantic         \
-			-fdiagnostics-show-category=name   \
-											   \
-			-Wno-zero-as-null-pointer-constant \
-			-Wno-ctad-maybe-unsupported        \
-			-Wc++17-extensions
+
+_CFLAGS =   -stdlib=libc++ -Weverything         \
+			-Wc++20-extensions                  \
+			-std=c++20
+#_CFLAGS =   -Wno-comma                         \
+			#-Wno-unused-template               \
+			#-Wno-sign-conversion               \
+			#-Wno-exit-time-destructors         \
+			#-Wno-global-constructors           \
+			#-Wno-missing-prototypes            \
+			#-Wno-weak-vtables                  \
+			#-Wno-padded                        \
+			#-Wno-double-promotion              \
+			#-fdiagnostics-show-category=name   \
+											   #\
+			#-Wno-zero-as-null-pointer-constant \
+			#-Wno-ctad-maybe-unsupported        \
+			#-Wc++20-extensions
+			#-std=c++20
+#-stdlib=libc++ -Weverything 
 
 #_CFLAGS = -Wall -Wextra -pedantic#             # Compilation flags
 _SCRIPT = :#                                   # Any shell script to run before build (replace ':')
