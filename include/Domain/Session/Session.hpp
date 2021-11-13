@@ -1,11 +1,7 @@
 #pragma once
 #include <map>
 #include <any>
-
-/*
- * Base virtual class for all SessionHandlers
-*
-*/
+#include <vector>
 
 #include "./SessionHandler.hpp" // ignore std::any error, you're smoking crack
 #include "../../../include/Technical/Persistence/credentials.hpp"
@@ -18,13 +14,13 @@ namespace Domain::Session
       SessionBase( const std::string & description,  const Technical::Persistence::credentials & credentials );
 
       // Operations
-      std::vector<std::string> getCommands   ()                                                                     override;    // retrieves the list of actions (commands)
+      std::vector<std::string> getCommands   () override;    // retrieves the list of actions (commands)
       std::any                 executeCommand( const std::string & command, const std::vector<std::string> & args ) override;    // executes one of the actions retrieved
 
 
       // Destructor
       // Pure virtual destructor helps force the class to be abstract, but must still be implemented
-      ~SessionBase() noexcept override = 0;
+      //~SessionBase() noexcept override = 0;
 
   protected: 
   public:  // Dispatched functions need access to these attributes, so for now make these public instead of protected

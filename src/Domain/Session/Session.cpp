@@ -40,11 +40,10 @@ namespace Domain::Session
 
 
 
-
-  SessionBase::~SessionBase() noexcept
-  {
-    std::cout << "Session \"" + _name + "\" shutdown successfully";
-  }
+  //SessionBase::~SessionBase() noexcept
+  //{
+    //std::cout << "Session \"" + _name + "\" shutdown successfully";
+  //}
 
 
 
@@ -75,7 +74,7 @@ namespace Domain::Session
       message += " attempt to execute \"" + command + "\" failed, no such command";
 
       std::cout << message;
-      throw BadCommand( message );
+      //throw BadCommand( message ); FIXME
     }
 
     auto results = it->second( *this, args);

@@ -34,7 +34,8 @@ namespace Domain::Session
 
       // Destructor
       // Pure virtual destructor helps force the class to be abstract, but must still be implemented
-      virtual ~SessionHandler() noexcept = 0;
+      ~SessionHandler() {} // FIXME
+      //virtual ~SessionHandler() noexcept = 0;
 
 
     protected:

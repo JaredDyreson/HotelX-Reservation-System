@@ -2,6 +2,8 @@
 #include <string>
 
 namespace Technical::Persistence {
+  enum Role { CLERK, CLIENT };
+
   class credentials {
     public:
 
@@ -12,19 +14,12 @@ namespace Technical::Persistence {
       std::string getUserName();
 
       std::string getPassword();
-
-      bool operator<(const credentials& src) const {
-        /*
-         * Not sure where to place this
-        */
-          return (this->username < src.username &&
-                  this->password < src.password
-                 );
-      }
+      Role getRole() const;
 
     private:
       std::string username;
       std::string password;
+      Role role;
   };
 
 }
