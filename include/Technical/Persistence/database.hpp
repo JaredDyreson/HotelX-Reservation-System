@@ -7,7 +7,7 @@
 #include "database.hpp"
 #include "credentials.hpp"
 
-namespace TechnicalServices::Persistence::DataBase {
+namespace Technical::Persistence::DataBase {
 
   class Database {
     public:

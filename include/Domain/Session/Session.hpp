@@ -30,8 +30,8 @@ namespace Domain::Session
     friend class Policy;
 
     // Instance Attributes
-    std::unique_ptr<TechnicalServices::Logging::LoggerHandler> _loggerPtr = TechnicalServices::Logging::LoggerHandler::create();
-    TechnicalServices::Logging::LoggerHandler &                _logger    = *_loggerPtr;
+    std::unique_ptr<Technical::Logging::LoggerHandler> _loggerPtr = Technical::Logging::LoggerHandler::create();
+    Technical::Logging::LoggerHandler &                _logger    = *_loggerPtr;
 
     UserCredentials const                                      _credentials;
     std::string     const                                      _name      = "Undefined";

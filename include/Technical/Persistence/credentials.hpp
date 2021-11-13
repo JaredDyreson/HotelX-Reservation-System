@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace TechnicalServices::Persistence {
+namespace Technical::Persistence {
   class credentials {
     public:
 
