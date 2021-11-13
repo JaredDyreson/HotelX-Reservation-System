@@ -9,6 +9,7 @@ namespace Technical::Persistence {
   }
   std::string credentials::getUserName() { return this->username; }
   std::string credentials::getPassword() { return this->password; }
+  Role credentials::getRole() const { return this->role; }
 
 
 }

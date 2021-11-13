@@ -1,27 +1,26 @@
 #pragma once
+#include <map>
+#include <any>
+#include <vector>
 
-/*
- * Base virtual class for all SessionHandlers
-*
-*/
-
-#include "./SessionHandler.hpp"
+#include "./SessionHandler.hpp" // ignore std::any error, you're smoking crack
+#include "../../../include/Technical/Persistence/credentials.hpp"
 
 namespace Domain::Session
 {
   class SessionBase : public SessionHandler
   {
     public:
-      SessionBase( const std::string & description,  const UserCredentials & credentials );
+      SessionBase( const std::string & description,  const Technical::Persistence::credentials & credentials );
 
       // Operations
-      std::vector<std::string> getCommands   ()                                                                     override;    // retrieves the list of actions (commands)
+      std::vector<std::string> getCommands   () override;    // retrieves the list of actions (commands)
       std::any                 executeCommand( const std::string & command, const std::vector<std::string> & args ) override;    // executes one of the actions retrieved
 
 
       // Destructor
       // Pure virtual destructor helps force the class to be abstract, but must still be implemented
-      ~SessionBase() noexcept override = 0;
+      //~SessionBase() noexcept override = 0;
 
   protected: 
   public:  // Dispatched functions need access to these attributes, so for now make these public instead of protected
@@ -29,19 +28,19 @@ namespace Domain::Session
     using DispatchTable = std::map<std::string, std::any (*)( Domain::Session::SessionBase &, const std::vector<std::string> & )>;
     friend class Policy;
 
-    // Instance Attributes
-    std::unique_ptr<Technical::Logging::LoggerHandler> _loggerPtr = Technical::Logging::LoggerHandler::create();
-    Technical::Logging::LoggerHandler &                _logger    = *_loggerPtr;
+    // Instance Attributes (TODO: include logger)
+    //std::unique_ptr<Technical::Logging::LoggerHandler> _loggerPtr = Technical::Logging::LoggerHandler::create();
+    //Technical::Logging::LoggerHandler &                _logger    = *_loggerPtr;
 
-    UserCredentials const                                      _credentials;
+    Technical::Persistence::credentials const                                      _credentials;
     std::string     const                                      _name      = "Undefined";
     DispatchTable                                              _commandDispatch;
   };    // class SessionBase
 
 
-  struct AdministratorSession : SessionBase{ AdministratorSession( const UserCredentials & credentials ); };
-  struct BorrowerSession      : SessionBase{ BorrowerSession     ( const UserCredentials & credentials ); };
-  struct LibrarianSession     : SessionBase{ LibrarianSession    ( const UserCredentials & credentials ); };
-  struct ManagementSession    : SessionBase{ ManagementSession   ( const UserCredentials & credentials ); };
+  struct AdministratorSession : SessionBase{ AdministratorSession( const Technical::Persistence::credentials & credentials ); };
+  struct BorrowerSession      : SessionBase{ BorrowerSession     ( const Technical::Persistence::credentials & credentials ); };
+  struct LibrarianSession     : SessionBase{ LibrarianSession    ( const Technical::Persistence::credentials & credentials ); };
+  struct ManagementSession    : SessionBase{ ManagementSession   ( const Technical::Persistence::credentials & credentials ); };
 
 } // namespace Domain::Session
