@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../../../include/Technical/Persistence/SimpleDB.hpp"
 
 #include <fstream>    // streamsize
@@ -10,6 +11,7 @@
 #include <iostream>
 
 //#include "Technical/Logging/SimpleLogger.hpp"
+#include "../../../include/Technical/Logging/SimpleLogger.hpp"
 #include "../../../include/Technical/Persistence/PersistenceHandler.hpp"
 
 // NOTE : std::cout replaces _logger for now
@@ -47,36 +49,36 @@ namespace Technical::Persistence
   
   //    TODO
   //
-  //SimpleDB::SimpleDB() : std::coutPtr( std::make_unique<Technical::Logging::SimpleLogger>() )
-  //{
-    //std::cout << "Simple DB being used and has been successfully initialized";
+  SimpleDB::SimpleDB() : _loggerPtr( std::make_unique<Technical::Logging::SimpleLogger>() )
+  {
+    _logger << "Simple DB being used and has been successfully initialized";
 
 
-    //// Let's look for an adaptation data file, and if found load the contents.  Otherwise create some default values.
-    //std::ifstream adaptationDataFile( "Library_System_AdaptableData.dat", std::ios::binary );
+    // Let's look for an adaptation data file, and if found load the contents.  Otherwise create some default values.
+    std::ifstream adaptationDataFile( "Library_System_AdaptableData.dat", std::ios::binary );
 
-    //if( adaptationDataFile.is_open() )
-    //{
-      //// Expected format:  key = value
-      //// Notes:
-      ////   1) if key or value contain whitespace, they must be enclosed in double quotes
-      ////   2) if the same Key appears more than once, last one wins
-      ////   3) everything after the value is ignored, allowing that space to be used as comments
-      ////   4) A Key of "//" is ignored, allowing the file to contain comment lines of the form // = ...
-      //std::string key, value;
-      //while( adaptationDataFile >> std::quoted( key ) >> ignore( '=' ) >> std::quoted( value ) >> ignore( '\n' ) )   _adaptablePairs[key] = value;
-      //_adaptablePairs.erase( "//" );
-    //}
+    if( adaptationDataFile.is_open() )
+    {
+      // Expected format:  key = value
+      // Notes:
+      //   1) if key or value contain whitespace, they must be enclosed in double quotes
+      //   2) if the same Key appears more than once, last one wins
+      //   3) everything after the value is ignored, allowing that space to be used as comments
+      //   4) A Key of "//" is ignored, allowing the file to contain comment lines of the form // = ...
+      std::string key, value;
+      while( adaptationDataFile >> std::quoted( key ) >> ignore( '=' ) >> std::quoted( value ) >> ignore( '\n' ) )   _adaptablePairs[key] = value;
+      _adaptablePairs.erase( "//" );
+    }
 
-    //else
-    //{
-      //_adaptablePairs = { [> KEY */               /* Value<]
-                          //{"Component.Logger",    "Simple Logger"},
-                          //{"Component.UI",        "Simple UI"}
-////                        {"Component.UI",        "Contracted UI"}
-                        //};
-    //}
-  //}
+    else
+    {
+      _adaptablePairs = { /* KEY */               /* Value*/
+                          {"Component.Logger",    "Simple Logger"},
+                          {"Component.UI",        "Simple UI"}
+//                        {"Component.UI",        "Contracted UI"}
+                        };
+    }
+  }
 
 
 
@@ -91,7 +93,7 @@ namespace Technical::Persistence
 
   std::vector<std::string> SimpleDB::findRoles()
   {
-    return { "Borrower", "Librarian", "Administrator", "Management" };
+    return { "Clerk", "Client"};
   }
 
 
@@ -102,9 +104,8 @@ namespace Technical::Persistence
     static std::vector<UserCredentials> storedUsers =
     {
     // Username    Pass Phrase         Authorized roles
-      {"Tom",     "CPSC 462 Rocks!",  {"Borrower",     "Management"}},
-      {"Barbara", "Why am I here?",   {"Borrower"                  }},
-      {"Amanda",  "",                 {"Administrator"             }}
+      {"Jared",     "coffeerulz",     {"Client"}},
+      {"Tomas", "Why am I here?",   {"Clerk"}},
     };
 
     for( const auto & user : storedUsers ) if( user.userName == name ) return user;
