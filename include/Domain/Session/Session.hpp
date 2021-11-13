@@ -6,6 +6,8 @@
 #include "./SessionHandler.hpp" // ignore std::any error, you're smoking crack
 #include "../../../include/Technical/Persistence/credentials.hpp"
 
+#include "../../../include/Technical/Logging/LoggerHandler.hpp"
+
 namespace Domain::Session
 {
   class SessionBase : public SessionHandler
@@ -29,8 +31,8 @@ namespace Domain::Session
     friend class Policy;
 
     // Instance Attributes (TODO: include logger)
-    //std::unique_ptr<Technical::Logging::LoggerHandler> _loggerPtr = Technical::Logging::LoggerHandler::create();
-    //Technical::Logging::LoggerHandler &                _logger    = *_loggerPtr;
+    std::unique_ptr<Technical::Logging::LoggerHandler> _loggerPtr = Technical::Logging::LoggerHandler::create();
+    Technical::Logging::LoggerHandler &                _logger    = *_loggerPtr;
 
     Technical::Persistence::credentials const                                      _credentials;
     std::string     const                                      _name      = "Undefined";

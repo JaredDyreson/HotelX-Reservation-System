@@ -8,7 +8,7 @@
 #include "../../../include/Domain/Session/Session.hpp"
 #include "../../../include/Technical/Persistence/credentials.hpp"
 
-//#include "TechnicalServices/Persistence/PersistenceHandler.hpp" FIXME
+//#include "Technical/Persistence/PersistenceHandler.hpp" FIXME
 
 
 
@@ -57,7 +57,7 @@ namespace Domain::Session
     //{
 
         //// 2) If authenticated user is authorized for the selected role, create a session specific for that role
-      ////auto &          persistentData    = TechnicalServices::Persistence::PersistenceHandler::instance();
+      ////auto &          persistentData    = Technical::Persistence::PersistenceHandler::instance();
       ////UserCredentials credentialsFromDB = persistentData.findCredentialsByName( credentials.userName );
 
       ////// 1)  Perform the authentication
@@ -73,7 +73,7 @@ namespace Domain::Session
       ////{
       ////}
     //}
-    //catch( const TechnicalServices::Persistence::PersistenceHandler::NoSuchUser & ) {}  // Catch and ignore this anticipated condition
+    //catch( const Technical::Persistence::PersistenceHandler::NoSuchUser & ) {}  // Catch and ignore this anticipated condition
 
     return nullptr;
   }

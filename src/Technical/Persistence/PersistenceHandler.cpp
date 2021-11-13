@@ -1,7 +1,7 @@
 #include "../../../include/Technical/Persistence/PersistenceHandler.hpp"
 #include "../../../include/Technical/Persistence/SimpleDB.hpp"
 
-namespace TechnicalServices::Persistence
+namespace Technical::Persistence
 {
   PersistenceHandler::~PersistenceHandler() noexcept = default;
 
@@ -24,4 +24,4 @@ namespace TechnicalServices::Persistence
                                          // upper architectural layers, but not PersistenceHandler.cpp.
     return instance;
   }
-}    // namespace TechnicalServices::Persistence
+}    // namespace Technical::Persistence

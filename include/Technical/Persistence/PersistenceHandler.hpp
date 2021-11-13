@@ -5,7 +5,7 @@
 #include <vector>
 
 
-namespace TechnicalServices::Persistence
+namespace Technical::Persistence
 {
   // Function argument type definitions
   struct UserCredentials
@@ -49,5 +49,5 @@ namespace TechnicalServices::Persistence
       // Pure virtual destructor helps force the class to be abstract, but must still be implemented
       virtual ~PersistenceHandler() noexcept = 0;
   };
-} // namespace TechnicalServices::Persistence
+} // namespace Technical::Persistence
 
