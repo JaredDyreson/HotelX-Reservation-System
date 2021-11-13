@@ -3,19 +3,20 @@
 #include <iostream>
 #include <map>
 
-#include "../../../include/Domain/Actors/Person.hpp"
-#include "../../../include/Technical/Persistence/credentials.hpp"
+#include "dataclasses.hpp"
+#include "database.hpp"
+#include "credentials.hpp"
 
-namespace TechnicalServices::Persistence {
+namespace TechnicalServices::Persistence::DataBase {
 
   class Database {
     public:
       Database();
-      void insertElement(Domain::Actors::Person*);
+      void insertElement(TechnicalServices::Persistence::DataClasses Person*);
       size_t size();
 
     private:
         //std::map<credentials, Domain::Actors::Person> database;
-        std::map<Domain::Actors::Person, credentials> database;
+        std::map<TechnicalServices::Persistence::DataClasses, credentials> database;
   };
 }
