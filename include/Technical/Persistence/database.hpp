@@ -12,11 +12,12 @@ namespace TechnicalServices::Persistence::DataBase {
   class Database {
     public:
       Database();
-      void insertElement(TechnicalServices::Persistence::DataClasses Person*);
+
       size_t size();
 
     private:
         //std::map<credentials, Domain::Actors::Person> database;
-        std::map<TechnicalServices::Persistence::DataClasses, credentials> database;
+        //std::map<TechnicalServices::Persistence::DataClasses, credentials> database;
+
   };
 }
