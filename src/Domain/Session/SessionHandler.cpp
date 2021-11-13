@@ -41,9 +41,9 @@ namespace Domain::Session
 
     switch(obtained_role) {
       case Role::CLERK: 
-        return std::make_unique<Domain::Session::BorrowerSession>     ( credentials );
+        return std::make_unique<Domain::Session::ClerkSession>     ( credentials );
       case Role::CLIENT:
-        return std::make_unique<Domain::Session::BorrowerSession>     ( credentials );
+        return std::make_unique<Domain::Session::ClientSession>     ( credentials );
     }
 
     // Authenticate the requester

@@ -11,7 +11,7 @@
 
 #### Configuration ################################################################################
 
-_PROJ   = myEZmadeProject#                     # The name of the project and generated executable
+_PROJ   = hotelx#                     # The name of the project and generated executable
 _SDIR   = src#                                 # Path to directory of source files (relative to ./)
 _HDIR   = include#                             # Path to directory of header files (relative to ./)
 _BDIR   = bin#                                 # Path to directory of binary files (relative to ./)

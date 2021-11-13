@@ -39,7 +39,7 @@ namespace Domain::Session
   }
 
 
-
+  // FIXME
   //SessionBase::~SessionBase() noexcept
   //{
     //std::cout << "Session \"" + _name + "\" shutdown successfully";
@@ -88,16 +88,9 @@ namespace Domain::Session
     return results;
   }
 
-
-
-
-
-
-
-
   // 2) Now map the above system events to roles authorized to make such a request.  Many roles can request the same event, and many
   //    events can be requested by a single role.
-  AdministratorSession::AdministratorSession( const Technical::Persistence::credentials & credentials ) : SessionBase( "Administrator", credentials )
+  ClientSession::ClientSession( const Technical::Persistence::credentials & credentials ) : SessionBase( "Client", credentials )
   {
     _commandDispatch = { {"Help",            help        },
                          {"Reset Account",   resetAccount},
@@ -107,7 +100,7 @@ namespace Domain::Session
 
 
 
-  BorrowerSession::BorrowerSession( const Technical::Persistence::credentials & credentials ) : SessionBase( "Borrower", credentials )
+  ClerkSession::ClerkSession( const Technical::Persistence::credentials & credentials ) : SessionBase( "Clek", credentials )
   {
     _commandDispatch = { 
                          {"Help",          help        },
@@ -115,23 +108,4 @@ namespace Domain::Session
                          {"Return Book",   returnBook  } };
   }
 
-
-
-
-  LibrarianSession::LibrarianSession( const Technical::Persistence::credentials & credentials ) : SessionBase( "Librarian", credentials )
-  {
-    _commandDispatch = {
-                         {"Collect Fines", collectFines},
-                         {"Help",          help        },
-                         {"Open Archives", openArchives} };
-  }
-
-
-
-
-  ManagementSession::ManagementSession( const Technical::Persistence::credentials & credentials ) : SessionBase( "Management", credentials )
-  {
-    _commandDispatch = { {"Bug People", bugPeople},
-                         {"Help",       help} };
-  }
 }    // namespace Domain::Session

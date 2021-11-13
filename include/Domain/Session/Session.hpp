@@ -38,9 +38,7 @@ namespace Domain::Session
   };    // class SessionBase
 
 
-  struct AdministratorSession : SessionBase{ AdministratorSession( const Technical::Persistence::credentials & credentials ); };
-  struct BorrowerSession      : SessionBase{ BorrowerSession     ( const Technical::Persistence::credentials & credentials ); };
-  struct LibrarianSession     : SessionBase{ LibrarianSession    ( const Technical::Persistence::credentials & credentials ); };
-  struct ManagementSession    : SessionBase{ ManagementSession   ( const Technical::Persistence::credentials & credentials ); };
+  struct ClerkSession         : SessionBase{ ClerkSession( const Technical::Persistence::credentials & credentials ); };
+  struct ClientSession        : SessionBase{ ClientSession     ( const Technical::Persistence::credentials & credentials ); };
 
 } // namespace Domain::Session
