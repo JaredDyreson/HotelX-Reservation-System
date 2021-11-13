@@ -7,7 +7,7 @@
 #include "../../../include/Technical/Persistence/credentials.hpp"
 #include "../../../include/Technical/Persistence/database.hpp"
 
-namespace TechnicalServices::Persistence::DataBase {
+namespace Technical::Persistence::DataBase {
     
   Database::Database(std::map<std::string, std::string> _map) {
     this->database = _map;
@@ -17,7 +17,8 @@ namespace TechnicalServices::Persistence::DataBase {
   }
 
   bool Database::contains(std::string key) {
-    return std::find(this->database.begin(), this->database.end(), this->database) != this->database.end();
+    //return std::find(this->database.begin(), this->database.end(), this->database) != this->database.end();
+    return true;
   }
 
   size_t Database::size() {

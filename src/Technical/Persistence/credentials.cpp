@@ -1,7 +1,7 @@
 #include <string>
 #include "../../../include/Technical/Persistence/credentials.hpp"
 
-namespace TechnicalServices::Persistence {
+namespace Technical::Persistence {
   credentials::credentials() {};
   credentials::credentials(std::string _user, std::string _pass) {
       this->username = _user;

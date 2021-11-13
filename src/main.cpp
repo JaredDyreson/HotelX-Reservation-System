@@ -11,8 +11,8 @@ int main() {
     {"Hello", "World"}
   };
 
-  TechnicalServices::Persistence::credentials creds = TechnicalServices::Persistence::credentials("Hello", "World");
-  TechnicalServices::Persistence::DataBase::Database database = TechnicalServices::Persistence::DataBase::Database(_map);
+  Technical::Persistence::credentials creds = Technical::Persistence::credentials("Hello", "World");
+  Technical::Persistence::DataBase::Database database = Technical::Persistence::DataBase::Database(_map);
 
   std::cout << creds.getPassword() << std::endl;
   return 0;

@@ -12,7 +12,7 @@ namespace Domain::Actors {
     std::string getName();
     int getAge();
     Role getRole();
-    TechnicalServices::Persistence::credentials getCredentials();
+    Technical::Persistence::credentials getCredentials();
 
     void setName(std::string);
     void setAge(int);
@@ -28,6 +28,6 @@ namespace Domain::Actors {
     int age;
     std::string name;
     Role role;
-    TechnicalServices::Persistence::credentials creds;
+    Technical::Persistence::credentials creds;
   };
 };

@@ -29,7 +29,7 @@ namespace payment {
   };
 }
 
-namespace TechnicalServices::Persistence::DataClasses {
+namespace Technical::Persistence::DataClasses {
   /*
    * All of these classes are supposed to represent
    * key concepts in the program but we're less interested in
