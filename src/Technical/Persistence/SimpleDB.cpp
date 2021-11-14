@@ -104,7 +104,7 @@ namespace Technical::Persistence
     static std::vector<UserCredentials> storedUsers =
     {
     // Username    Pass Phrase         Authorized roles
-      {"Jared",     "coffeerulz",     {"Clerk"}},
+      {"Jared",     "coffeerulz",     {"Clerk", "Client"}},
       {"Tomas", "teacherapple",   {"Clerk"}},
     };
 

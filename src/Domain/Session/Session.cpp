@@ -2,6 +2,7 @@
 
 #include "../../../include/Domain/Session/Session.hpp" // ignore std::any error
 #include "../../../include/Technical/Persistence/credentials.hpp"
+#include "../../../include/Technical/Persistence/dataclasses.hpp"
 
 #include <any>
 #include <limits>
@@ -31,73 +32,12 @@ namespace  // anonymous (private) working area
 
 }    // anonymous (private) working area
 
-// these functions can be put anywhere but we'll keep it here for the meantime
-std::any example_function( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) {
-  return {"Hello World"};
-}
-
-enum roomStatus {CLEAN, DIRTY, OCCUPIED, FREE};
-enum PaymentType {PAYPAL, CASH, DEBIT};
-
-struct Statement {
-  std::string name;
-  std::string start;
-  std::string end;
-  float amountPaid;
-  Statement(std::string n, std::string s, std::string e, float a) : name(n), start(s), end(e), amountPaid(a) {}
-};
-
-class Reservation {
-  public:
-    Reservation(std::string, int);
-  private:
-    std::string date;
-    int number;
-};
-
-class Payment {
-  public:
-    Payment(float a, std::string p, std::string e, std::string n, PaymentType pa) : amount(a), provider(p), expirationDate(e), number(n), paymentType(pa) {}
-  private:
-    float amount;
-    std::string provider;
-    std::string expirationDate;
-    std::string number;
-    PaymentType paymentType;
-};
-
-
-
-roomStatus _setRoomStatus(int roomNumber, roomStatus status) {
-  // do some internal database work, just return the given status
-  std::cout << "[INFO | LOGGER] setting the room status" << std::endl;
-  return status;
-}
-size_t _obtainRoomCode(std::string username, int roomNmber) {
-  // generically return a room code, please implement in further iterations
-  return 5361;
-}
-
-float _generateBill(std::string username, int room_number) {
-
-  // TODO
-  return 100.50;
-}
-
-Statement payBill(std::string username, Payment method, float amount, int room_number) {
-  return Statement(
-      "Jared",
-      "01/01/2021",
-      "01/03/2021",
-      amount
-  );
-}
-
 /*
- * Check in Guest FUNCTIONS BOOTSTRAPPED
+ * CLERK FUNCTIONS BEGIN
 */
 
 std::any obtainGuestRoom( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) {
+    std::cin.ignore(  std::numeric_limits<std::streamsize>::max(), '\n' );
     std::string name;
     std::string reservation_number;
     std::string reservation_date;
@@ -113,6 +53,7 @@ std::any obtainGuestRoom( Domain::Session::SessionBase & session, const std::vec
 }
 
 std::any setRoomStatus( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) { 
+    std::cin.ignore(  std::numeric_limits<std::streamsize>::max(), '\n' );
     std::string room_stat;
     std::string room_number;
     std::cout << "What is their room number: ";
@@ -122,12 +63,13 @@ std::any setRoomStatus( Domain::Session::SessionBase & session, const std::vecto
     std::getline(std::cin, room_stat);
 
     if(room_stat == "Occupied") {
-      return roomStatus::OCCUPIED;
+      return Technical::Persistence::DataClasses::room_status::OCCUPIED;
     }
-    return roomStatus::FREE;
+    return Technical::Persistence::DataClasses::room_status::FREE;
 }
 
 std::any obtainRoomCode( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) { 
+    std::cin.ignore(  std::numeric_limits<std::streamsize>::max(), '\n' );
     std::string name;
     std::cout << "What is their name: ";
     std::getline(std::cin, name);
@@ -135,9 +77,116 @@ std::any obtainRoomCode( Domain::Session::SessionBase & session, const std::vect
     std::string room_number;
     std::cout << "What is their room number: ";
     std::getline(std::cin, room_number);
+    std::cout << "ROOM CODE IS: 5361" << std::endl;
 
     return {5361};
 }
+
+std::any payBill( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) { 
+  std::cout << "PAYING BILL FOR JARED" << std::endl;
+
+  std::cin.ignore(  std::numeric_limits<std::streamsize>::max(), '\n' );
+  std::string name;
+  std::string provider;
+  std::string number;
+  std::string expiration_date;
+
+  std::cout << "What is their name: ";
+  std::getline(std::cin, name);
+
+  std::cout << "What is their provider: ";
+  std::getline(std::cin, provider);
+
+  std::cout << "What is their card number: ";
+  std::getline(std::cin, number);
+
+  std::cout << "What is their card expiration date: ";
+  std::getline(std::cin, expiration_date);
+
+  Technical::Persistence::DataClasses::Payment(100.50, provider, number, expiration_date, Technical::Persistence::DataClasses::PaymentType::DEBIT);
+
+  return {Technical::Persistence::DataClasses::_Statement(
+      "Jared",
+      "01/01/2021",
+      "01/03/2021",
+      100.50
+  )};
+}
+
+std::any generateBill( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) { 
+
+  std::cout << "GENERATING BILIL OF 100.50 FOR JARED" << std::endl;
+  return (float)100.50;
+}
+
+/*
+ * END CLERK FUNCTIONS
+*/
+
+/*
+ * BEGIN CLIENT FUNCTIONS
+*/
+
+std::any requestMembershipInformation( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) { 
+
+    std::cin.ignore(  std::numeric_limits<std::streamsize>::max(), '\n' );
+    std::string name;
+    std::cout << "What is their name: ";
+    std::getline(std::cin, name);
+    
+    // parse information better
+
+    std::cout << "date joined: 01/01/1970, you have a free night stay and you have 100 points" << std::endl;
+
+    return {
+      Technical::Persistence::DataClasses::memberShipInformation(name, "01/01/1970", {"Free Night Stay!"}, 100)
+    };
+}
+
+std::any requestPaymentInformation( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) { 
+    std::cin.ignore(  std::numeric_limits<std::streamsize>::max(), '\n' );
+
+    std::string name;
+
+    std::cout << "What is their name: ";
+    std::getline(std::cin, name);
+
+    std::cout << "Visa, 123-133 04/33 DEBIT" << std::endl;
+    return { 
+      Technical::Persistence::DataClasses::Payment(0, "Visa", "123-133", "04/33", Technical::Persistence::DataClasses::PaymentType::DEBIT)};
+}
+
+
+std::any updatePaymentInformation( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) { 
+
+    std::cin.ignore(  std::numeric_limits<std::streamsize>::max(), '\n' );
+
+    std::string name;
+    std::string provider;
+    std::string number;
+    std::string expiration_date;
+
+    std::cout << "What is their name: ";
+    std::getline(std::cin, name);
+
+    std::cout << "What is their provider: ";
+    std::getline(std::cin, provider);
+
+    std::cout << "What is their card number: ";
+    std::getline(std::cin, number);
+
+    std::cout << "What is their card expiration date: ";
+    std::getline(std::cin, expiration_date);
+
+    std::cout << provider << " " << number << " " << expiration_date << " " << std::endl;
+
+    Technical::Persistence::DataClasses::Payment(0, provider, number, expiration_date, Technical::Persistence::DataClasses::PaymentType::DEBIT);
+    return 0;
+}
+
+/*
+ * END CLIENT FUNCTIONS
+*/
 
 namespace Domain::Session
 {
@@ -188,14 +237,6 @@ namespace Domain::Session
 
     auto results = it->second( *this, args);
 
-    if( results.has_value() )
-    {
-      // The type of result depends on function called.  Let's assume strings for now ...
-      //_logger << "Responding with: \"" + std::any_cast<const std::string &>( results ) + '"';
-      //std::cout << "Responding with: \"" + std::reinterpret_cast<std::string>( results ) + '"';
-      //std::cout << std::any_cast<const char*>(results) << std::endl;
-    }
-
     return results;
   }
 
@@ -204,7 +245,9 @@ namespace Domain::Session
   ClientSession::ClientSession( const UserCredentials & credentials ) : SessionBase( "Client", credentials )
   {
     _commandDispatch = { {"Help",            help        },
-                         {"Reset Account",   resetAccount},
+                         {"Request Memeberhip Information",   requestMembershipInformation},
+                         {"Request Payment Information",   requestPaymentInformation},
+                         {"Update Payment Information",   updatePaymentInformation},
                          {"Shutdown System", shutdown    } };
   }
 
@@ -217,6 +260,8 @@ namespace Domain::Session
                          {"Help",          help        },
                          {"Set Room Status",          setRoomStatus        },
                          {"Obtain Room Code",          obtainRoomCode        },
+                         {"Generate Bill",          generateBill        },
+                         {"Pay Bill",                    payBill        },
                          {"Obtain Guest Room",          obtainGuestRoom} };
   }
 
