@@ -8,6 +8,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <stdexcept>
 
 
 
@@ -17,7 +18,7 @@ namespace  // anonymous (private) working area
   #define STUB(functionName)  std::any functionName( Domain::Session::SessionBase & /*session*/, const std::vector<std::string> & /*args*/ ) \
                               { return {}; }  // Stubbed for now
 
-  STUB( bugPeople    )
+  STUB( bugPeople    ) // these are blank fuctions
   STUB( collectFines )
   STUB( help         )
   STUB( openArchives )
@@ -28,6 +29,11 @@ namespace  // anonymous (private) working area
 
 
 }    // anonymous (private) working area
+
+// these functions can be put anywhere but we'll keep it here for the meantime
+std::any example_function( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) {
+  return {"Hello World"};
+}
 
 
 namespace Domain::Session
@@ -64,7 +70,7 @@ namespace Domain::Session
   {
     std::string parameters;
     for( const auto & arg : args )  parameters += '"' + arg + "\"  ";
-    _logger << "Responding to \"" + command + "\" request with parameters: " + parameters;
+    //_logger << "Responding to \"" + command + "\" request with parameters: " + parameters;
 
     auto it = _commandDispatch.find( command );
     if( it == _commandDispatch.end() )
@@ -72,7 +78,8 @@ namespace Domain::Session
       std::string message = __func__;
       message += " attempt to execute \"" + command + "\" failed, no such command";
 
-      _logger << message;
+      //_logger << message;
+      std::cout << message;
       throw BadCommand( message );
     }
 
@@ -81,7 +88,9 @@ namespace Domain::Session
     if( results.has_value() )
     {
       // The type of result depends on function called.  Let's assume strings for now ...
-      _logger << "Responding with: \"" + std::any_cast<const std::string &>( results ) + '"';
+      //_logger << "Responding with: \"" + std::any_cast<const std::string &>( results ) + '"';
+      //std::cout << "Responding with: \"" + std::reinterpret_cast<std::string>( results ) + '"';
+      std::cout << std::any_cast<const char*>(results) << std::endl;
     }
 
     return results;
@@ -102,7 +111,8 @@ namespace Domain::Session
   ClerkSession::ClerkSession( const UserCredentials & credentials ) : SessionBase( "Clek", credentials )
   {
     _commandDispatch = { 
-                         {"Help",          help        },
+                         //{"Help",          help        },
+                         {"ExampleFunction",          example_function        },
                          {"Pay Fines",     payFines    },
                          {"Return Book",   returnBook  } };
   }

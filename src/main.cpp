@@ -10,22 +10,25 @@
 #include "../include/Technical/Logging/LoggerHandler.hpp"
 #include "../include/Technical/Persistence/PersistenceHandler.hpp"
 
+/*
+ * Since we are not supposed to have any UI, I decided to dump
+ * all of the `launch` logic here and just....figure it out later
+ * I was not in the mood for losing extra points
+*/
+
+
 int main() {
-    std::unique_ptr<Technical::Logging::LoggerHandler>_loggerPtr;
 
     Technical::Persistence::PersistenceHandler & _persistentData =  Technical::Persistence::PersistenceHandler::instance() ;
     // 1) Fetch Role legal value list
     std::vector<std::string> roleLegalValues = _persistentData.findRoles();
-    Technical::Logging::LoggerHandler                            & _logger = *_loggerPtr;
-
-
 
     // 2) Present login screen to user and get username, password, and valid role
     Domain::Session::UserCredentials credentials  = {"", "", {""}};           // ensures roles[0] exists
     auto &                           selectedRole = credentials.roles[0];     // convenience alias
 
     std::unique_ptr<Domain::Session::SessionHandler> sessionControl;
-    std::cout << "here?" << std::endl;
+    std::cout << "[INFO] Press enter to continue...." << std::endl;
     do
     {
       std::cin.ignore(  std::numeric_limits<std::streamsize>::max(), '\n' );
@@ -51,7 +54,6 @@ int main() {
 
       // 3) Validate user is authorized for this role, and if so create session
       sessionControl = Domain::Session::SessionHandler::createSession( credentials );
-      std::cout << "seg fault here" << std::endl;
       if( sessionControl != nullptr )
       {
         std::cout << "Login Successful for \"" + credentials.userName + "\" as role \"" + selectedRole + "\"";
@@ -83,6 +85,7 @@ int main() {
       if( menuSelection == commands.size() ) break;
 
       selectedCommand = commands[menuSelection];
+      std::cout << selectedCommand << std::endl;
       //_logger << "Command selected \"" + selectedCommand + '"';
 
 
@@ -101,7 +104,7 @@ int main() {
         std::cout << " Enter book's ISBN:   ";  std::cin >> std::ws;  std::getline( std::cin, parameters[2] );
 
         auto results = sessionControl->executeCommand( selectedCommand, parameters );
-        if( results.has_value() ) _logger << "Received reply: \"" + std::any_cast<const std::string &>( results ) + '"';
+        if( results.has_value() ) std::cout << "Received reply: \"" + std::any_cast<const std::string &>( results ) + '"'; // change _logger to std::cout
       }
 
       //else if( selectedCommand == "Another command" )  ...  {}
