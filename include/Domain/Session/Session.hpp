@@ -6,12 +6,14 @@
 #include "./SessionHandler.hpp" // ignore std::any error, you're smoking crack
 #include "../../../include/Technical/Persistence/credentials.hpp"
 
+#include "../../../include/Technical/Logging/LoggerHandler.hpp"
+
 namespace Domain::Session
 {
   class SessionBase : public SessionHandler
   {
     public:
-      SessionBase( const std::string & description,  const Technical::Persistence::credentials & credentials );
+      SessionBase( const std::string & description,  const UserCredentials & credentials );
 
       // Operations
       std::vector<std::string> getCommands   () override;    // retrieves the list of actions (commands)
@@ -29,16 +31,16 @@ namespace Domain::Session
     friend class Policy;
 
     // Instance Attributes (TODO: include logger)
-    //std::unique_ptr<Technical::Logging::LoggerHandler> _loggerPtr = Technical::Logging::LoggerHandler::create();
-    //Technical::Logging::LoggerHandler &                _logger    = *_loggerPtr;
+    std::unique_ptr<Technical::Logging::LoggerHandler> _loggerPtr = Technical::Logging::LoggerHandler::create();
+    Technical::Logging::LoggerHandler &                _logger    = *_loggerPtr;
 
-    Technical::Persistence::credentials const                                      _credentials;
+    UserCredentials const                                      _credentials;
     std::string     const                                      _name      = "Undefined";
     DispatchTable                                              _commandDispatch;
   };    // class SessionBase
 
 
-  struct ClerkSession         : SessionBase{ ClerkSession( const Technical::Persistence::credentials & credentials ); };
-  struct ClientSession        : SessionBase{ ClientSession     ( const Technical::Persistence::credentials & credentials ); };
+  struct ClerkSession         : SessionBase{ ClerkSession( const UserCredentials & credentials ); };
+  struct ClientSession        : SessionBase{ ClientSession     ( const UserCredentials & credentials ); };
 
 } // namespace Domain::Session

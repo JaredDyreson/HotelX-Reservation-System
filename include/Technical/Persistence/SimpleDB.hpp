@@ -4,17 +4,18 @@
 #include <string>
 #include <vector>
 
-//#include "TechnicalServices/Logging/LoggerHandler.hpp" FIXME
+//#include "Technical/Logging/LoggerHandler.hpp" FIXME
 //
+#include "../Logging/LoggerHandler.hpp"
 #include "PersistenceHandler.hpp"
 
-namespace TechnicalServices::Persistence
+namespace Technical::Persistence
 {
-  class SimpleDB : public TechnicalServices::Persistence::PersistenceHandler
+  class SimpleDB : public Technical::Persistence::PersistenceHandler
   {
     public:
       using PersistenceHandler::PersistenceHandler;    // inherit constructors
-      //SimpleDB();
+      SimpleDB();
 
 
       // Operations
@@ -28,11 +29,11 @@ namespace TechnicalServices::Persistence
       ~SimpleDB() noexcept override;
 
     private:
-      //std::unique_ptr<TechnicalServices::Logging::LoggerHandler> _loggerPtr; TODO
+      std::unique_ptr<Technical::Logging::LoggerHandler> _loggerPtr;
 
       // convenience reference object enabling standard insertion syntax
       // This line must be physically after the definition of _loggerPtr
-      //TechnicalServices::Logging::LoggerHandler & _logger = *_loggerPtr; TODO ^^^^^^
+      Technical::Logging::LoggerHandler & _logger = *_loggerPtr;
 
 
       // Property data (Key/Value pairs) off-line modifiable by the end-user
@@ -40,5 +41,5 @@ namespace TechnicalServices::Persistence
       AdaptationData _adaptablePairs;
 
   }; // class SimpleDB
-}  // namespace TechnicalServices::Persistence
+}  // namespace Technical::Persistence
 

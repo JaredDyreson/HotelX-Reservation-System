@@ -7,11 +7,12 @@
 #include <vector>
 
 #include "../../Technical/Persistence/credentials.hpp"
+#include "../../Technical/Persistence/PersistenceHandler.hpp"
 
 namespace Domain::Session
 {
   // Import the User Credentials type from the lower layer and publish it as your own
-  //using Technical::Persistence::UserCredentials;
+  using Technical::Persistence::UserCredentials;
 
 
   // Library Package within the Domain Layer Abstract class
@@ -24,7 +25,7 @@ namespace Domain::Session
       struct   BadCommand     : SessionException   {using SessionException::SessionException;};
 
       // Object Factory returning a specialized object specific to the specified user and role
-      static std::unique_ptr<SessionHandler> createSession( const Technical::Persistence::credentials & creds );
+      static std::unique_ptr<SessionHandler> createSession( const UserCredentials & creds );
 
 
       // Operations

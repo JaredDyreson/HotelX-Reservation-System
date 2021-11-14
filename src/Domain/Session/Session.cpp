@@ -9,7 +9,6 @@
 #include <utility>
 #include <vector>
 
-// std::cout inplace of _logger
 
 
 namespace  // anonymous (private) working area
@@ -33,16 +32,16 @@ namespace  // anonymous (private) working area
 
 namespace Domain::Session
 {
-  SessionBase::SessionBase( const std::string & description, const Technical::Persistence::credentials & credentials ) : _credentials( credentials ), _name( description )
+  SessionBase::SessionBase( const std::string & description, const UserCredentials & credentials ) : _credentials( credentials ), _name( description )
   {
-    std::cout << "Session \"" + _name + "\" being used and has been successfully initialized";
+    _logger << "Session \"" + _name + "\" being used and has been successfully initialized";
   }
 
 
   // FIXME
   //SessionBase::~SessionBase() noexcept
   //{
-    //std::cout << "Session \"" + _name + "\" shutdown successfully";
+    //_logger << "Session \"" + _name + "\" shutdown successfully";
   //}
 
 
@@ -65,7 +64,7 @@ namespace Domain::Session
   {
     std::string parameters;
     for( const auto & arg : args )  parameters += '"' + arg + "\"  ";
-    std::cout << "Responding to \"" + command + "\" request with parameters: " + parameters;
+    _logger << "Responding to \"" + command + "\" request with parameters: " + parameters;
 
     auto it = _commandDispatch.find( command );
     if( it == _commandDispatch.end() )
@@ -73,8 +72,8 @@ namespace Domain::Session
       std::string message = __func__;
       message += " attempt to execute \"" + command + "\" failed, no such command";
 
-      std::cout << message;
-      //throw BadCommand( message ); FIXME
+      _logger << message;
+      throw BadCommand( message );
     }
 
     auto results = it->second( *this, args);
@@ -82,7 +81,7 @@ namespace Domain::Session
     if( results.has_value() )
     {
       // The type of result depends on function called.  Let's assume strings for now ...
-      std::cout << "Responding with: \"" + std::any_cast<const std::string &>( results ) + '"';
+      _logger << "Responding with: \"" + std::any_cast<const std::string &>( results ) + '"';
     }
 
     return results;
@@ -90,7 +89,7 @@ namespace Domain::Session
 
   // 2) Now map the above system events to roles authorized to make such a request.  Many roles can request the same event, and many
   //    events can be requested by a single role.
-  ClientSession::ClientSession( const Technical::Persistence::credentials & credentials ) : SessionBase( "Client", credentials )
+  ClientSession::ClientSession( const UserCredentials & credentials ) : SessionBase( "Client", credentials )
   {
     _commandDispatch = { {"Help",            help        },
                          {"Reset Account",   resetAccount},
@@ -100,7 +99,7 @@ namespace Domain::Session
 
 
 
-  ClerkSession::ClerkSession( const Technical::Persistence::credentials & credentials ) : SessionBase( "Clek", credentials )
+  ClerkSession::ClerkSession( const UserCredentials & credentials ) : SessionBase( "Clek", credentials )
   {
     _commandDispatch = { 
                          {"Help",          help        },
