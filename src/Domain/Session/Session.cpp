@@ -4,6 +4,7 @@
 #include "../../../include/Technical/Persistence/credentials.hpp"
 
 #include <any>
+#include <limits>
 #include <iostream>
 #include <string>
 #include <utility>
@@ -35,6 +36,108 @@ std::any example_function( Domain::Session::SessionBase & session, const std::ve
   return {"Hello World"};
 }
 
+enum roomStatus {CLEAN, DIRTY, OCCUPIED, FREE};
+enum PaymentType {PAYPAL, CASH, DEBIT};
+
+struct Statement {
+  std::string name;
+  std::string start;
+  std::string end;
+  float amountPaid;
+  Statement(std::string n, std::string s, std::string e, float a) : name(n), start(s), end(e), amountPaid(a) {}
+};
+
+class Reservation {
+  public:
+    Reservation(std::string, int);
+  private:
+    std::string date;
+    int number;
+};
+
+class Payment {
+  public:
+    Payment(float a, std::string p, std::string e, std::string n, PaymentType pa) : amount(a), provider(p), expirationDate(e), number(n), paymentType(pa) {}
+  private:
+    float amount;
+    std::string provider;
+    std::string expirationDate;
+    std::string number;
+    PaymentType paymentType;
+};
+
+
+
+roomStatus _setRoomStatus(int roomNumber, roomStatus status) {
+  // do some internal database work, just return the given status
+  std::cout << "[INFO | LOGGER] setting the room status" << std::endl;
+  return status;
+}
+size_t _obtainRoomCode(std::string username, int roomNmber) {
+  // generically return a room code, please implement in further iterations
+  return 5361;
+}
+
+float _generateBill(std::string username, int room_number) {
+
+  // TODO
+  return 100.50;
+}
+
+Statement payBill(std::string username, Payment method, float amount, int room_number) {
+  return Statement(
+      "Jared",
+      "01/01/2021",
+      "01/03/2021",
+      amount
+  );
+}
+
+/*
+ * Check in Guest FUNCTIONS BOOTSTRAPPED
+*/
+
+std::any obtainGuestRoom( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) {
+    std::string name;
+    std::string reservation_number;
+    std::string reservation_date;
+    std::cout << "What is their name: ";
+    std::getline(std::cin, name);
+
+    std::cout << "What is their reservation number: ";
+    std::getline(std::cin, reservation_number);
+    std::cout << "What is their reservation date: ";
+    std::getline(std::cin, reservation_date);
+    // std::stoi(reservation_number)
+    return {100};
+}
+
+std::any setRoomStatus( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) { 
+    std::string room_stat;
+    std::string room_number;
+    std::cout << "What is their room number: ";
+    std::getline(std::cin, room_number);
+
+    std::cout << "What is the room status: ";
+    std::getline(std::cin, room_stat);
+
+    if(room_stat == "Occupied") {
+      return roomStatus::OCCUPIED;
+    }
+    return roomStatus::FREE;
+}
+
+std::any obtainRoomCode( Domain::Session::SessionBase & session, const std::vector<std::string> & args ) { 
+    std::string name;
+    std::cout << "What is their name: ";
+    std::getline(std::cin, name);
+
+    std::string room_number;
+    std::cout << "What is their room number: ";
+    std::getline(std::cin, room_number);
+
+    return {5361};
+}
 
 namespace Domain::Session
 {
@@ -90,7 +193,7 @@ namespace Domain::Session
       // The type of result depends on function called.  Let's assume strings for now ...
       //_logger << "Responding with: \"" + std::any_cast<const std::string &>( results ) + '"';
       //std::cout << "Responding with: \"" + std::reinterpret_cast<std::string>( results ) + '"';
-      std::cout << std::any_cast<const char*>(results) << std::endl;
+      //std::cout << std::any_cast<const char*>(results) << std::endl;
     }
 
     return results;
@@ -111,10 +214,14 @@ namespace Domain::Session
   ClerkSession::ClerkSession( const UserCredentials & credentials ) : SessionBase( "Clek", credentials )
   {
     _commandDispatch = { 
-                         //{"Help",          help        },
-                         {"ExampleFunction",          example_function        },
-                         {"Pay Fines",     payFines    },
-                         {"Return Book",   returnBook  } };
+                         {"Help",          help        },
+                         {"Set Room Status",          setRoomStatus        },
+                         {"Obtain Room Code",          obtainRoomCode        },
+                         {"Obtain Guest Room",          obtainGuestRoom} };
   }
 
-}    // namespace Domain::Session
+    void ClerkSession::hello_world_function() {
+      std::cout << "hello world!" << std::endl;
+    }
+
+}

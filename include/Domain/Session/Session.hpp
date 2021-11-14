@@ -2,6 +2,7 @@
 #include <map>
 #include <any>
 #include <vector>
+#include <iostream>
 
 #include "./SessionHandler.hpp" // ignore std::any error, you're smoking crack
 #include "../../../include/Technical/Persistence/credentials.hpp"
@@ -40,7 +41,10 @@ namespace Domain::Session
   };    // class SessionBase
 
 
-  struct ClerkSession         : SessionBase{ ClerkSession( const UserCredentials & credentials ); };
+  struct ClerkSession : SessionBase{ 
+        ClerkSession( const UserCredentials & credentials ); 
+        void hello_world_function();
+  };
   struct ClientSession        : SessionBase{ ClientSession     ( const UserCredentials & credentials ); };
 
 } // namespace Domain::Session

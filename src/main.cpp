@@ -85,31 +85,7 @@ int main() {
       if( menuSelection == commands.size() ) break;
 
       selectedCommand = commands[menuSelection];
-      std::cout << selectedCommand << std::endl;
-      //_logger << "Command selected \"" + selectedCommand + '"';
-
-
-      //*****************************************************************************************************************************
-     //*  5) The user interface will collect relevant information to execute the chosen command.  This section requires the UI to
-     //*     know what information to collect, and hence what the available commands are.  Our goal is loose (minimal) coupling, not
-     //*     no coupling. This can be achieved in a variety of ways, but one common way is to pass strings instead of strong typed
-     //*     parameters.
-     //****************************************************************************************************************************
-      if( selectedCommand == "Checkout Book" )
-      {
-        std::vector<std::string> parameters( 3 );
-
-        std::cout << " Enter book's title:  ";  std::cin >> std::ws;  std::getline( std::cin, parameters[0] );
-        std::cout << " Enter book's author: ";  std::cin >> std::ws;  std::getline( std::cin, parameters[1] );
-        std::cout << " Enter book's ISBN:   ";  std::cin >> std::ws;  std::getline( std::cin, parameters[2] );
-
-        auto results = sessionControl->executeCommand( selectedCommand, parameters );
-        if( results.has_value() ) std::cout << "Received reply: \"" + std::any_cast<const std::string &>( results ) + '"'; // change _logger to std::cout
-      }
-
-      //else if( selectedCommand == "Another command" )  ...  {}
-
-      else sessionControl->executeCommand( selectedCommand, {} );
+      sessionControl->executeCommand( selectedCommand, {} );
     } while( true );
 
     //_logger << "Ending session and terminating";
