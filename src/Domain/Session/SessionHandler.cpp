@@ -7,6 +7,7 @@
 
 #include "../../../include/Domain/Session/Session.hpp"
 #include "../../../include/Technical/Persistence/credentials.hpp"
+#include "../../../include/Technical/Persistence/PersistenceHandler.hpp"
 
 //#include "Technical/Persistence/PersistenceHandler.hpp" FIXME
 
@@ -22,7 +23,7 @@ namespace Domain::Session
 
 
   // returns a specialized object specific to the specified role
-  std::unique_ptr<SessionHandler> SessionHandler::createSession( const Technical::Persistence::credentials & credentials )
+  std::unique_ptr<SessionHandler> SessionHandler::createSession( const UserCredentials & credentials )
   {
     // Just as a smart defensive strategy, one should verify this role is one of the roles in the DB's legal value list.  I'll come
     // back to that
@@ -34,46 +35,32 @@ namespace Domain::Session
     // ToDo: Make this an Abstract Factory by:
     //  1) removing the parameter from the function's signature :  std::unique_ptr<SessionHandler>  SessionHandler::createSession();
     //  2) read the role from a proprieties files or (preferred) look up the role in the persistent data
-    //
-    using Technical::Persistence::Role;
-
-    Role obtained_role = credentials.getRole();
-
-    switch(obtained_role) {
-      case Role::CLERK: 
-        return std::make_unique<Domain::Session::ClerkSession>     ( credentials );
-      case Role::CLIENT:
-        return std::make_unique<Domain::Session::ClientSession>     ( credentials );
-    }
 
     // Authenticate the requester
-    //if( credentials.role == "Borrower"      ) return ;
-    //if( credentials.role == "Librarian"     ) return std::make_unique<Domain::Session::LibrarianSession>    ( credentials );
-    //if( credentials.role == "Administrator" ) return std::make_unique<Domain::Session::AdministratorSession>( credentials );
-    //if( credentials.role == "Management"    ) return std::make_unique<Domain::Session::ManagementSession>   ( credentials );
+    try
+    {
+      auto &          persistentData    = Technical::Persistence::PersistenceHandler::instance();
+      UserCredentials credentialsFromDB = persistentData.findCredentialsByName( credentials.userName );
 
-    //throw std::logic_error( "Invalid role requested in function " + std::string(__func__) ); // Oops, should never get here but ...  Throw something
-    //try
-    //{
+      // 1)  Perform the authentication
+      // std::set_intersection might be a better choice, but here I'm assuming there will be one and only one role in the passed-in
+      // credentials I just need to verify the requested role is in the set of authorized roles.  Someday, if a user can sign in
+      // with many roles combined, I may have to revisit this approach.  But for now, this is good enough.
+      if(    credentials.userName   == credentialsFromDB.userName
+          && credentials.passPhrase == credentialsFromDB.passPhrase
+          && std::any_of( credentialsFromDB.roles.cbegin(), credentialsFromDB.roles.cend(),
+                          [&]( const std::string & role ) { return credentials.roles.size() > 0 && credentials.roles[0] == role; }
+                        )
+        )
+      {
+        // 2) If authenticated user is authorized for the selected role, create a session specific for that role
+        if( credentials.roles[0] == "Client"      ) return std::make_unique<Domain::Session::ClientSession>     ( credentials );
+        if( credentials.roles[0] == "Clerk"     ) return std::make_unique<Domain::Session::ClerkSession>    ( credentials );
 
-        //// 2) If authenticated user is authorized for the selected role, create a session specific for that role
-      ////auto &          persistentData    = Technical::Persistence::PersistenceHandler::instance();
-      ////UserCredentials credentialsFromDB = persistentData.findCredentialsByName( credentials.userName );
-
-      ////// 1)  Perform the authentication
-      ////// std::set_intersection might be a better choice, but here I'm assuming there will be one and only one role in the passed-in
-      ////// credentials I just need to verify the requested role is in the set of authorized roles.  Someday, if a user can sign in
-      ////// with many roles combined, I may have to revisit this approach.  But for now, this is good enough.
-      ////if(    credentials.userName   == credentialsFromDB.userName
-          ////&& credentials.passPhrase == credentialsFromDB.passPhrase
-          ////&& std::any_of( credentialsFromDB.roles.cbegin(), credentialsFromDB.roles.cend(),
-                          ////[&]( const std::string & role ) { return credentials.roles.size() > 0 && credentials.roles[0] == role; }
-                        ////)
-        ////)
-      ////{
-      ////}
-    //}
-    //catch( const Technical::Persistence::PersistenceHandler::NoSuchUser & ) {}  // Catch and ignore this anticipated condition
+        throw std::logic_error( "Invalid role requested in function " + std::string(__func__) ); // Oops, should never get here but ...  Throw something
+      }
+    }
+    catch( ... ) {}  // Catch and ignore this anticipated condition TODO
 
     return nullptr;
   }

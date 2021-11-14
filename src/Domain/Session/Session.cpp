@@ -32,7 +32,7 @@ namespace  // anonymous (private) working area
 
 namespace Domain::Session
 {
-  SessionBase::SessionBase( const std::string & description, const Technical::Persistence::credentials & credentials ) : _credentials( credentials ), _name( description )
+  SessionBase::SessionBase( const std::string & description, const UserCredentials & credentials ) : _credentials( credentials ), _name( description )
   {
     _logger << "Session \"" + _name + "\" being used and has been successfully initialized";
   }
@@ -89,7 +89,7 @@ namespace Domain::Session
 
   // 2) Now map the above system events to roles authorized to make such a request.  Many roles can request the same event, and many
   //    events can be requested by a single role.
-  ClientSession::ClientSession( const Technical::Persistence::credentials & credentials ) : SessionBase( "Client", credentials )
+  ClientSession::ClientSession( const UserCredentials & credentials ) : SessionBase( "Client", credentials )
   {
     _commandDispatch = { {"Help",            help        },
                          {"Reset Account",   resetAccount},
@@ -99,7 +99,7 @@ namespace Domain::Session
 
 
 
-  ClerkSession::ClerkSession( const Technical::Persistence::credentials & credentials ) : SessionBase( "Clek", credentials )
+  ClerkSession::ClerkSession( const UserCredentials & credentials ) : SessionBase( "Clek", credentials )
   {
     _commandDispatch = { 
                          {"Help",          help        },
