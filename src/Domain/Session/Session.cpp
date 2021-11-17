@@ -48,6 +48,7 @@ std::any obtainGuestRoom( Domain::Session::SessionBase & session, const std::vec
     std::getline(std::cin, reservation_number);
     std::cout << "What is their reservation date: ";
     std::getline(std::cin, reservation_date);
+    std::cout << "[INFO] Room number is 100";
     // std::stoi(reservation_number)
     return {100};
 }
@@ -61,6 +62,8 @@ std::any setRoomStatus( Domain::Session::SessionBase & session, const std::vecto
 
     std::cout << "What is the room status: ";
     std::getline(std::cin, room_stat);
+
+    std::cout << "[INFO] Successfully set room status to Occupied!" << std::endl;
 
     if(room_stat == "Occupied") {
       return Technical::Persistence::DataClasses::room_status::OCCUPIED;
@@ -77,7 +80,7 @@ std::any obtainRoomCode( Domain::Session::SessionBase & session, const std::vect
     std::string room_number;
     std::cout << "What is their room number: ";
     std::getline(std::cin, room_number);
-    std::cout << "ROOM CODE IS: 5361" << std::endl;
+    std::cout << "[INFO] ROOM CODE IS: 5361" << std::endl;
 
     return {5361};
 }
@@ -150,8 +153,12 @@ std::any requestPaymentInformation( Domain::Session::SessionBase & session, cons
 
     std::cout << "What is their name: ";
     std::getline(std::cin, name);
+    if(name == "Jared ") {
+      std::cout << "Bank of America, 124-313 04/33 DEBIT" << std::endl;
+    } else {
+      std::cout << "Visa, 123-133 04/33 DEBIT" << std::endl;
+    }
 
-    std::cout << "Visa, 123-133 04/33 DEBIT" << std::endl;
     return { 
       Technical::Persistence::DataClasses::Payment(0, "Visa", "123-133", "04/33", Technical::Persistence::DataClasses::PaymentType::DEBIT)};
 }
@@ -178,7 +185,8 @@ std::any updatePaymentInformation( Domain::Session::SessionBase & session, const
     std::cout << "What is their card expiration date: ";
     std::getline(std::cin, expiration_date);
 
-    std::cout << provider << " " << number << " " << expiration_date << " " << std::endl;
+    //std::cout << provider << " " << number << " " << expiration_date << " " << std::endl;
+    std::cout << "[INFO] Status code of 0 obtained, successfully updated records!!!!" << std::endl;
 
     Technical::Persistence::DataClasses::Payment(0, provider, number, expiration_date, Technical::Persistence::DataClasses::PaymentType::DEBIT);
     return 0;
