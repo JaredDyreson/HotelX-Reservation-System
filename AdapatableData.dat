@@ -1,0 +1,12 @@
+"Component.Logger"     =    "Simple Logger"
+
+
+// =  Component.UI Legal options:
+// =     "Simple UI"             Interactive console
+// =     "Contracted UI"         Scenario driver with no user interaction
+"Component.UI" = "Simple UI"
+
+// = Component.DB Legal Options
+// = "Simple DB"                 Key, Value Datastore
+// = "Extra Simple DB"           Vector container Datastore
+"Component.DB" = "Extra Simple DB"

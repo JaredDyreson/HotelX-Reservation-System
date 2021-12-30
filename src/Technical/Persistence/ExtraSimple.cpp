@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../include/Technical/Persistence/SimpleDB.hpp"
+#include "../../../include/Technical/Persistence/ExtraSimple.hpp"
 
 #include <fstream>    // streamsize
 #include <iomanip>    // quoted()
@@ -10,7 +10,6 @@
 #include <vector>
 #include <iostream>
 
-//#include "Technical/Logging/SimpleLogger.hpp"
 #include "../../../include/Technical/Logging/SimpleLogger.hpp"
 #include "../../../include/Technical/Persistence/PersistenceHandler.hpp"
 
@@ -49,9 +48,9 @@ namespace Technical::Persistence
   
   //    TODO
   //
-  SimpleDB::SimpleDB() : _loggerPtr( std::make_unique<Technical::Logging::SimpleLogger>() )
+  ExtraSimpleDB::ExtraSimpleDB() : _loggerPtr( std::make_unique<Technical::Logging::SimpleLogger>() )
   {
-    _logger << "Simple DB being used and has been successfully initialized";
+    _logger << "ExtraSimple DB being used and has been successfully initialized";
 
 
     // Let's look for an adaptation data file, and if found load the contents.  Otherwise create some default values.
@@ -73,8 +72,8 @@ namespace Technical::Persistence
     else
     {
       _adaptablePairs = { /* KEY */               /* Value*/
-                          {"Component.Logger",    "Simple Logger"},
-                          {"Component.UI",        "Simple UI"}
+                          {"Component.Logger",    "ExtraSimple Logger"},
+                          {"Component.UI",        "ExtraSimple UI"}
 //                        {"Component.UI",        "Contracted UI"}
                         };
     }
@@ -83,15 +82,15 @@ namespace Technical::Persistence
 
 
 
-  SimpleDB::~SimpleDB() noexcept
+  ExtraSimpleDB::~ExtraSimpleDB() noexcept
   {
-    std::cout << "Simple DB shutdown successfully";
+    std::cout << "ExtraSimple DB shutdown successfully";
   }
 
 
 
 
-  std::vector<std::string> SimpleDB::findRoles()
+  std::vector<std::string> ExtraSimpleDB::findRoles()
   {
     return { "Clerk", "Client"};
   }
@@ -99,7 +98,7 @@ namespace Technical::Persistence
 
 
 
-  UserCredentials SimpleDB::findCredentialsByName( const std::string & name )
+  UserCredentials ExtraSimpleDB::findCredentialsByName( const std::string & name )
   {
     static std::vector<UserCredentials> storedUsers =
     {
@@ -121,7 +120,7 @@ namespace Technical::Persistence
 
 
 
-  const std::string & SimpleDB::operator[]( const std::string & key ) const
+  const std::string & ExtraSimpleDB::operator[]( const std::string & key ) const
   {
     auto pair = _adaptablePairs.find( key );
     if( pair != _adaptablePairs.cend() ) return pair->second;

@@ -3,7 +3,7 @@
 #include <stdexcept>    // domain_error, runtime_error
 #include <string>
 #include <vector>
-
+#include <memory>
 
 namespace Technical::Persistence
 {
@@ -33,6 +33,7 @@ namespace Technical::Persistence
       PersistenceHandler            ( const PersistenceHandler & ) = delete;
       PersistenceHandler & operator=( const PersistenceHandler & ) = delete;
       static  PersistenceHandler & instance();
+      std::unique_ptr<PersistenceHandler> createDatabase();
 
 
       // Operations
